@@ -12,11 +12,14 @@ def meteo():
     nRandom = random.randint(0,8)
     if nRandom <= 2:
         immagine = "static/Pioggia.jpg"
+        previsione = 'Pioggia'
     elif nRandom <= 5:
         immagine = "static/nuvole.jpg"
+        previsione = 'Nuvoloso'
     else:
         immagine = "static/sole.jpg"
-    return render_template("meteo.html", meteo=immagine)
+        previsione = 'Sole'
+    return render_template("meteo.html", meteo=immagine, testo=previsione)
 
 
 if __name__ == '__main__':
