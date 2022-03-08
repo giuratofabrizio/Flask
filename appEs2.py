@@ -2,7 +2,7 @@
 # l'utente inserisce il nome, uno username, una password
 # la conferma della password e il sesso. FATTO
 
-# se le informazioni sono corrette il sito salva le informazioni in una struttura dati opportuna(lista dizionari)
+# se le informazioni sono corrette il sito salva le informazioni in una struttura dati opportuna(lista dizionari).FATTO
 #prevedere la possibilità di fare il log-in inserendo username e password. FATTO
 # se sono corrette, fornire un messaggio di benvenuto diverso a seconda del sesso. FATTO
 
