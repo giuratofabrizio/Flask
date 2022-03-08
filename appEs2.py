@@ -23,8 +23,8 @@ def dates():
     Sex = request.args['Sex']
 
     lst= []
-    
-    if Pass==Confirm and Name is not 'NaN' and Username is not 'NaN' and Pass is not 'NaN'and Sex is not 'NaN':
+
+    if Pass==Confirm:
        lst.append({Username:Pass})
        if Sex=='M':
            return render_template('welcome.html', nome=Name)

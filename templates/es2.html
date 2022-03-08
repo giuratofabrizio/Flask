@@ -1,10 +1,10 @@
 <form action="/dates" method = "GET"
->   <p>Name <input type = "text" name = "Name" /></p>
-    <p>Username <input type = "text" name = "User" /></p>
-    <p>Password <input type = "text" name = "Pass" /></p>
-    <p>Conferma password <input type = "text" name = "Conf" /></p>
+>   <p>Name <input type = "text" name = "Name" required/></p>
+    <p>Username <input type = "text" name = "User" required/></p>
+    <p>Password <input type = "text" name = "Pass" required/></p>
+    <p>Conferma password <input type = "text" name = "Conf" required/></p>
 
-    <p>Sex <input type = "radio" name = "Sex" value="M" />M <input type = "radio" name = "Sex" value="F" />F </p>
+    <p>Sex <input type = "radio" name = "Sex" value="M" required/>M <input type = "radio" name = "Sex" value="F" required/>F </p>
 
     <p><input type = "submit" value = "Submit" /></p>
     <a href="/login"> <img src="/static/login.jpg" alt="log-in" width="100" height="25"></a>
