@@ -4,22 +4,36 @@
 
 #modificare poi l'es precedente per permettere all'utente di inserire un capoluogo e di avere la regione in cui si trova
 #l'utente sceglie se avere la regione o il capoluogo selezionando un radio button
-
-
-
-
-
-
 from flask import Flask,render_template, request
 app = Flask(__name__)
 
+capoluoghiRegione = {'Abruzzo':'LAquila' , 'Basilicata':'Potenza' , 'Calabria':'Catanzaro' , 'Campania':'Napoli' ,
+  'EmiliaRomagna':'Bologna' , 'Friuli':'Trieste' , 'Lazio':'Roma' , 'Liguria':'Genova' , 'Lombardia':'Milano' ,
+  'Marche':'Ancona' , 'Molise':'Campobasso' , 'Piemonte':'Torino' , 'Puglia':'Bari' , 'Sardegna':'Cagliari' , 'Sicilia':'Palermo' , 
+  'Toscana':'Firenze' , 'Trentino':'Trento' , 'Umbria':'Perugia' , 'ValleDAosta':'Aosta' , 'Veneto':'Venezia'}
+
+Reg = list(capoluoghiRegione.keys())
+Cap = list(capoluoghiRegione.values())
+
+@app.route('/', methods=['GET'])
+def RC():
+    return render_template('RegioniCapoluoghi.html')
 
 
+@app.route('/capreg', methods=['GET'])
+def CR():
+    CR = request.args['Tipo']
+    if CR == 'Capoluogo':
+        return render_template('Capoluogo.html')
+    else: 
+        return render_template('Regione.html')
 
 
-
-
-
+@app.route('/reg', methods=['GET'])
+def R():
+    for regione in Reg:
+        if regione == capoluoghiRegione.key():
+            return capoluoghiRegione.value(regione)
 
 
 
