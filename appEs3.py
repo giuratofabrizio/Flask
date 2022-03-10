@@ -29,11 +29,23 @@ def CR():
         return render_template('Regione.html')
 
 
-@app.route('/reg', methods=['GET'])
-def R():
-    for regione in Reg:
-        if regione == capoluoghiRegione.key():
-            return capoluoghiRegione.value(regione)
+@app.route("/reg", methods=["GET"])
+def dataReg():
+    regione = request.args["Regione"]
+    for key, value in capoluoghiRegione.items():
+        if regione == key:
+            capoluogo = value
+            return render_template("risultato.html", risposta = capoluogo)
+    return "<h1>Errore</h1>"
+
+@app.route("/cap", methods=["GET"])
+def dataCap():
+    capoluogo = request.args["Capoluogo"]
+    for key, value in capoluoghiRegione.items():
+        if capoluogo == value:
+             regione = key
+             return render_template("risultato.html", risposta = regione)
+    return "<h1>Errore</h1>"
 
 
 
