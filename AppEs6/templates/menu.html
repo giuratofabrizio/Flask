@@ -1,0 +1,10 @@
+<form action="/ricerca" method = "GET">
+
+    <select name="Quartiere" method="GET">
+        {% for i in qrt%}
+        <option value="{{i}}">{{i}}</option>
+        {%endfor%}
+      </select>
+    <p><input type = "submit" value = "Submit" /></p>
+
+</form>
