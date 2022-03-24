@@ -16,7 +16,9 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 milano = gpd.read_file('/workspace/Flask/AppEs6/static/ds964_nil_wm-20220322T104009Z-001.zip')
-print(milano)
+fontanelle = gpd.read_file('/workspace/Flask/AppEs6/static/Fontanelle (1).zip')
+
+
 
 @app.route('/', methods=['GET'])
 def home():
@@ -62,6 +64,10 @@ def mpl():
 def trova():
     return render_template('str.html')
 
+
+
+
+
 @app.route('/ricerca', methods = ['GET'])
 def ricerca():
     
@@ -95,6 +101,63 @@ def plot35():
     qrt = milano.NIL.to_list()
     qrt.sort()
     return render_template('menu.html', qrt=qrt)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@app.route('/fontmenu', methods=("POST", "GET"))
+def fontmenu():   
+      return render_template("fontmenu.html", milano= milano["NIL"])
+
+
+
+@app.route('/fontanelle', methods=("POST", "GET"))
+def font():   
+    global imgUtente, fontQuart
+    
+    quartiereUtente = request.args["Quartiere"]
+    imgUtente = milano[milano["NIL"] == quartiereUtente]
+    fontQuart = fontanelle[fontanelle.within(imgUtente.geometry.squeeze())]
+    print(fontQuart)
+    return render_template('fontanelle.html', PageTitle = "Matplotlib", quartiere=quartiereUtente, tabella = fontQuart.to_html())
+
+
+
+
+@app.route("/fontanelle.png", methods=["GET"])
+def fontpng():
+    fig, ax = plt.subplots(figsize = (12,8))
+
+    imgUtente.to_crs(epsg=3857).plot(ax=ax, alpha=0.5, edgecolor="k")
+    fontQuart.to_crs(epsg=3857).plot(ax=ax, alpha=0.5, edgecolor="k")
+    contextily.add_basemap(ax=ax)   
+
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
 
 
 
