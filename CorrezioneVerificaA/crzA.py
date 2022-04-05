@@ -13,8 +13,8 @@ import matplotlib.pyplot as plt
 
 
 stazioni=pd.read_csv('/workspace/Flask/CorrezioneVerificaA/coordfix_ripetitori_radiofonici_milano_160120_loc_final.csv', sep=';')
-
-
+stazionigeo=gpd.read_file('/workspace/Flask/CorrezioneVerificaA/quartieri.geojson')
+quartieri=gpd.read_file('/workspace/Flask/AppEs6/static/ds964_nil_wm-20220322T104009Z-001.zip')
 
 @app.route('/', methods=['GET'])
 def home():
@@ -58,6 +58,59 @@ def grafico():
     return Response(output.getvalue(), mimetype='image/png')
 
 
+
+@app.route('/input', methods=['GET'])
+def input():
+    return render_template('input.html')
+
+@app.route('/ricerca', methods=['GET'])
+def ricerca():
+    global quartiere, stazioni_quartiere
+    nome_quartiere= request.args['quartiere']
+    quartiere=quartieri[quartieri.NIL.str.contains(nome_quartiere)]
+    stazioni_quartiere= stazionigeo[stazionigeo.within(quartiere.geometry.squeeze())]
+    return render_template('elenco1.html',risultato=stazioni_quartiere.to_html())
+
+@app.route('/mappa', methods=['GET'])
+def mappa():
+
+    fig, ax = plt.subplots(figsize = (12,8))
+
+    stazioni_quartiere.to_crs(epsg=3857).plot(ax=ax, color='k')
+    quartiere.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    contextily.add_basemap(ax=ax)
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
+
+
+@app.route('/dropdown', methods=['GET'])
+def dropdown():
+    nomi_stazioni= stazioni.OPERATORE.to_list()
+    nomi_stazioni= list(set(nomi_stazioni))
+    nomi_stazioni.sort()
+    return render_template('dropdown.html', stazioni=nomi_stazioni)
+
+@app.route('/sceltastazione', methods=['GET'])
+def sceltastazione():
+    global quartiere1,stazione_utente
+    stazione= request.args['stazione']
+    stazione_utente= stazionigeo[stazionigeo.OPERATORE==stazione]
+    quartiere1= quartieri[quartieri.contains(stazione_utente.geometry.squeeze())]
+    return render_template('vistastazione.html', quartiere=quartiere1.NIL)
+
+
+@app.route('/mappaquart', methods=['GET'])
+def mappaquart():
+
+    fig, ax = plt.subplots(figsize = (12,8))
+
+    stazione_utente.to_crs(epsg=3857).plot(ax=ax, color='k')
+    quartiere1.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    contextily.add_basemap(ax=ax)
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
 
 
 if __name__ == '__main__':
