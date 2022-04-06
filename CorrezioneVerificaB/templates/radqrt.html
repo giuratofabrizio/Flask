@@ -1,0 +1,8 @@
+<form action="/radqrt" method="GET">
+    <select name="stazione">
+        {% for i in qrt%}
+        <input type="radio" value="Inserisci il quartiere" name='quart'></input>
+        {%endfor%}
+    </select>
+    <p><input type = "submit" value = "Submit" /></p>
+</form>
