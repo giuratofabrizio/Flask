@@ -1,0 +1,8 @@
+<form action="/selezione" method = "GET">
+    <select name="selezione">
+        {% for quart in lst_qrt%}
+        <option value="{{quart}}" >{{quart}}</option>
+        {%endfor%}
+    </select>
+    <p><input type = "submit" value = "Submit" /></p>
+</form>
