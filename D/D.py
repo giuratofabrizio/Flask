@@ -38,8 +38,7 @@ def quart_geo():
 def mappa():
 
     fig, ax = plt.subplots(figsize = (12,8))
-
-    stazioni_quartiere.to_crs(epsg=3857).plot(ax=ax, color='k')
+    
     quartiere.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
     contextily.add_basemap(ax=ax)
     output = io.BytesIO()
